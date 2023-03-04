@@ -17,6 +17,7 @@ class PokerController extends Controller
 
         $handArray = [];
 
+        //Map card strings to array
         foreach($board['board'] as $card) {
             $suit = substr($card, -1);
             //Compensation for a 10
@@ -57,9 +58,6 @@ class PokerController extends Controller
         //Get array of values
         $values = array_column($handArray, 'value');
 
-        $min = min($values);
-        $max = max($values);
-
         $countValues = array_count_values($values);
 
         //This evaluates if the values are consecutive
@@ -68,6 +66,8 @@ class PokerController extends Controller
         $range = range(min($values), max($values));
         $diff = array_diff($range, $values);
         $isStraight = empty($diff) && count($values) === count($range);
+
+        //TODO: Cater for royal flush
 
         //Check in order of hierarchy - omitting 5 of a kind
         if($isStraight && $isFlush) {
