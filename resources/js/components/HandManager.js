@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Deck from "react-poker";
 import "react-poker/dist/styles.css"
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 import axios from "axios";
 
 /*See https://www.npmjs.com/package/react-poker for base of this component */
@@ -58,9 +60,10 @@ const getDeck = () =>
 class HandManager extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { board: [], deck: getDeck(), evaluation: "" };
-        this.progressDeal = this.progressDeal.bind(this);
+        this.state = { board: [], deck: getDeck(), evaluation: "", selectedSuit: null, selectedValue: null };
+        this.randomHand = this.randomHand.bind(this);
         this.evaluateHand = this.evaluateHand.bind(this);
+        this.chooseCard = this.chooseCard.bind(this);
     }
 
     newRound() {
@@ -84,30 +87,47 @@ class HandManager extends React.Component {
         this.setState(Object.assign({}, { deck, board: board.concat(card) }));
     }
 
-    progressDeal() {
+    randomHand() {
         const { deck, board } = this.state;
 
         this.setState({
             evaluation: ""
         })
 
-        if (board.length === 0) {
-            this.dealFlop();
-            return;
-        }
+        const newDeck = getDeck();
+        this.setState(Object.assign({}, { board: [], deck: newDeck }));
 
-        if (board.length === 5) {
-            this.newRound();
-        } else {
-            this.dealCard();
+        const flop = range(0, 5).map(e => deck.pop());
+        //this.setState(Object.assign({}, { board: flop }));
+        //this.newRound();
+        //this.dealFlop();
+    }
+
+    chooseCard() {
+        const { deck, board, selectedSuit, selectedValue } = this.state;
+        if(selectedSuit && selectedValue && board.length !== 5) {
+            let cardString = selectedValue+selectedSuit;
+            if(!board.includes(cardString)) {
+                this.setState(Object.assign({}, {deck, board: board.concat(cardString)}));
+            }
         }
+    }
+
+    handleSuitChange = (option) => {
+        this.setState({
+            selectedSuit: option.value
+        })
+    }
+
+    handleValueChange = (option) => {
+        this.setState({
+            selectedValue: option.value
+        })
     }
 
     evaluateHand() {
         const { deck, board } = this.state;
-
         let postArray = new Array();
-
         axios.post('/api/poker/evaluate-hand', {
             board
         }).then((response) => {
@@ -124,19 +144,29 @@ class HandManager extends React.Component {
 
         return (
             <div style={{ left: "10vw", top: "10vh", position: "absolute" }}>
-                <button
-                    style={{ padding: "1.5em", margin: "2em" }}
-                    onClick={this.progressDeal}
-                >
-                    Deal
-                </button>
-                <button
-                    style={{ padding: "1.5em", margin: "2em" }}
-                    onClick={this.evaluateHand}
-                >
-                    Evaluate
-                </button>
                 <div>
+                <Dropdown options={suits} onChange={this.handleSuitChange} placeholder="Select a suit" />
+                <Dropdown options={ranks} onChange={this.handleValueChange} placeholder="Select a value" />
+                <button
+                    style={{ padding: "1.5em", margin: "2em" }}
+                    onClick={() => this.chooseCard()}
+                >
+                    Add card
+                </button>
+                    <button
+                        style={{ padding: "1.5em", margin: "2em" }}
+                        onClick={() => this.newRound()}
+                    >
+                        Clear Hand
+                    </button>
+                    </div>
+                <div>
+                    <button
+                        style={{ padding: "1.5em", margin: "2em" }}
+                        onClick={this.evaluateHand}
+                    >
+                        Evaluate
+                    </button>
                     Hand evaluation: {evaluation}
                 </div>
                 <Deck

@@ -2118,15 +2118,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_poker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-poker */ "./node_modules/react-poker/dist/react-poker.js");
 /* harmony import */ var react_poker__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_poker__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react_poker_dist_styles_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-poker/dist/styles.css */ "./node_modules/react-poker/dist/styles.css");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_dropdown__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-dropdown */ "./node_modules/react-dropdown/dist/index.js");
+/* harmony import */ var react_dropdown_style_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-dropdown/style.css */ "./node_modules/react-dropdown/style.css");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
@@ -2134,6 +2134,11 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
 
 
 
@@ -2184,13 +2189,26 @@ var HandManager = /*#__PURE__*/function (_React$Component) {
     var _this;
     _classCallCheck(this, HandManager);
     _this = _super.call(this, props);
+    _defineProperty(_assertThisInitialized(_this), "handleSuitChange", function (option) {
+      _this.setState({
+        selectedSuit: option.value
+      });
+    });
+    _defineProperty(_assertThisInitialized(_this), "handleValueChange", function (option) {
+      _this.setState({
+        selectedValue: option.value
+      });
+    });
     _this.state = {
       board: [],
       deck: getDeck(),
-      evaluation: ""
+      evaluation: "",
+      selectedSuit: null,
+      selectedValue: null
     };
-    _this.progressDeal = _this.progressDeal.bind(_assertThisInitialized(_this));
+    _this.randomHand = _this.randomHand.bind(_assertThisInitialized(_this));
     _this.evaluateHand = _this.evaluateHand.bind(_assertThisInitialized(_this));
+    _this.chooseCard = _this.chooseCard.bind(_assertThisInitialized(_this));
     return _this;
   }
   _createClass(HandManager, [{
@@ -2232,33 +2250,53 @@ var HandManager = /*#__PURE__*/function (_React$Component) {
       }));
     }
   }, {
-    key: "progressDeal",
-    value: function progressDeal() {
+    key: "randomHand",
+    value: function randomHand() {
       var _this$state4 = this.state,
         deck = _this$state4.deck,
         board = _this$state4.board;
       this.setState({
         evaluation: ""
       });
-      if (board.length === 0) {
-        this.dealFlop();
-        return;
-      }
-      if (board.length === 5) {
-        this.newRound();
-      } else {
-        this.dealCard();
+      var newDeck = getDeck();
+      this.setState(Object.assign({}, {
+        board: [],
+        deck: newDeck
+      }));
+      var flop = range(0, 5).map(function (e) {
+        return deck.pop();
+      });
+      //this.setState(Object.assign({}, { board: flop }));
+      //this.newRound();
+      //this.dealFlop();
+    }
+  }, {
+    key: "chooseCard",
+    value: function chooseCard() {
+      var _this$state5 = this.state,
+        deck = _this$state5.deck,
+        board = _this$state5.board,
+        selectedSuit = _this$state5.selectedSuit,
+        selectedValue = _this$state5.selectedValue;
+      if (selectedSuit && selectedValue && board.length !== 5) {
+        var cardString = selectedValue + selectedSuit;
+        if (!board.includes(cardString)) {
+          this.setState(Object.assign({}, {
+            deck: deck,
+            board: board.concat(cardString)
+          }));
+        }
       }
     }
   }, {
     key: "evaluateHand",
     value: function evaluateHand() {
       var _this2 = this;
-      var _this$state5 = this.state,
-        deck = _this$state5.deck,
-        board = _this$state5.board;
+      var _this$state6 = this.state,
+        deck = _this$state6.deck,
+        board = _this$state6.board;
       var postArray = new Array();
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post('/api/poker/evaluate-hand', {
+      axios__WEBPACK_IMPORTED_MODULE_6___default().post('/api/poker/evaluate-hand', {
         board: board
       }).then(function (response) {
         _this2.setState({
@@ -2271,32 +2309,54 @@ var HandManager = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$state6 = this.state,
-        board = _this$state6.board,
-        evaluation = _this$state6.evaluation;
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      var _this3 = this;
+      var _this$state7 = this.state,
+        board = _this$state7.board,
+        evaluation = _this$state7.evaluation;
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         style: {
           left: "10vw",
           top: "10vh",
           position: "absolute"
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
-          style: {
-            padding: "1.5em",
-            margin: "2em"
-          },
-          onClick: this.progressDeal,
-          children: "Deal"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
-          style: {
-            padding: "1.5em",
-            margin: "2em"
-          },
-          onClick: this.evaluateHand,
-          children: "Evaluate"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          children: ["Hand evaluation: ", evaluation]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)((react_poker__WEBPACK_IMPORTED_MODULE_2___default()), {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_dropdown__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            options: suits,
+            onChange: this.handleSuitChange,
+            placeholder: "Select a suit"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_dropdown__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            options: ranks,
+            onChange: this.handleValueChange,
+            placeholder: "Select a value"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+            style: {
+              padding: "1.5em",
+              margin: "2em"
+            },
+            onClick: function onClick() {
+              return _this3.chooseCard();
+            },
+            children: "Add card"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+            style: {
+              padding: "1.5em",
+              margin: "2em"
+            },
+            onClick: function onClick() {
+              return _this3.newRound();
+            },
+            children: "Clear Hand"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+            style: {
+              padding: "1.5em",
+              margin: "2em"
+            },
+            onClick: this.evaluateHand,
+            children: "Evaluate"
+          }), "Hand evaluation: ", evaluation]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)((react_poker__WEBPACK_IMPORTED_MODULE_2___default()), {
           board: board,
           boardXoffset: 375 // X axis pixel offset for dealing board
           ,
@@ -2311,8 +2371,101 @@ var HandManager = /*#__PURE__*/function (_React$Component) {
 }((react__WEBPACK_IMPORTED_MODULE_0___default().Component));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HandManager);
 if (document.getElementById('hand-manager')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(HandManager, {}), document.getElementById('hand-manager'));
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(HandManager, {}), document.getElementById('hand-manager'));
 }
+
+/***/ }),
+
+/***/ "./node_modules/classnames/index.js":
+/*!******************************************!*\
+  !*** ./node_modules/classnames/index.js ***!
+  \******************************************/
+/***/ ((module, exports) => {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+	var nativeCodeString = '[native code]';
+
+	function classNames() {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg)) {
+				if (arg.length) {
+					var inner = classNames.apply(null, arg);
+					if (inner) {
+						classes.push(inner);
+					}
+				}
+			} else if (argType === 'object') {
+				if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+					classes.push(arg.toString());
+					continue;
+				}
+
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if ( true && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {}
+}());
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/react-dropdown/style.css":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/react-dropdown/style.css ***!
+  \*********************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".Dropdown-root {\n  position: relative;\n}\n\n.Dropdown-control {\n  position: relative;\n  overflow: hidden;\n  background-color: white;\n  border: 1px solid #ccc;\n  border-radius: 2px;\n  box-sizing: border-box;\n  color: #333;\n  cursor: default;\n  outline: none;\n  padding: 8px 52px 8px 10px;\n  transition: all 200ms ease;\n}\n\n.Dropdown-control:hover {\n  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);\n}\n\n.Dropdown-arrow {\n  border-color: #999 transparent transparent;\n  border-style: solid;\n  border-width: 5px 5px 0;\n  content: ' ';\n  display: block;\n  height: 0;\n  margin-top: -ceil(2.5);\n  position: absolute;\n  right: 10px;\n  top: 14px;\n  width: 0\n}\n\n.is-open .Dropdown-arrow {\n  border-color: transparent transparent #999;\n  border-width: 0 5px 5px;\n}\n\n.Dropdown-menu {\n  background-color: white;\n  border: 1px solid #ccc;\n  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);\n  box-sizing: border-box;\n  margin-top: -1px;\n  max-height: 200px;\n  overflow-y: auto;\n  position: absolute;\n  top: 100%;\n  width: 100%;\n  z-index: 1000;\n  -webkit-overflow-scrolling: touch;\n}\n\n.Dropdown-menu .Dropdown-group > .Dropdown-title{\n  padding: 8px 10px;\n  color: rgba(51, 51, 51, 1);\n  font-weight: bold;\n  text-transform: capitalize;\n}\n\n.Dropdown-option {\n  box-sizing: border-box;\n  color: rgba(51, 51, 51, 0.8);\n  cursor: pointer;\n  display: block;\n  padding: 8px 10px;\n}\n\n.Dropdown-option:last-child {\n  border-bottom-right-radius: 2px;\n   border-bottom-left-radius: 2px;\n}\n\n.Dropdown-option:hover {\n  background-color: #f2f9fc;\n  color: #333;\n}\n\n.Dropdown-option.is-selected {\n  background-color: #f2f9fc;\n  color: #333;\n}\n\n.Dropdown-noresults {\n  box-sizing: border-box;\n  color: #ccc;\n  cursor: default;\n  display: block;\n  padding: 8px 10px;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
 
 /***/ }),
 
@@ -50002,6 +50155,313 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react-dropdown/dist/index.js":
+/*!***************************************************!*\
+  !*** ./node_modules/react-dropdown/dist/index.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+
+var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var DEFAULT_PLACEHOLDER_STRING = 'Select...';
+
+var Dropdown =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Dropdown, _Component);
+
+  function Dropdown(props) {
+    var _this;
+
+    _classCallCheck(this, Dropdown);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Dropdown).call(this, props));
+    _this.state = {
+      selected: _this.parseValue(props.value, props.options) || {
+        label: typeof props.placeholder === 'undefined' ? DEFAULT_PLACEHOLDER_STRING : props.placeholder,
+        value: ''
+      },
+      isOpen: false
+    };
+    _this.dropdownRef = (0, _react.createRef)();
+    _this.mounted = true;
+    _this.handleDocumentClick = _this.handleDocumentClick.bind(_assertThisInitialized(_this));
+    _this.fireChangeEvent = _this.fireChangeEvent.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Dropdown, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.value !== prevProps.value) {
+        if (this.props.value) {
+          var selected = this.parseValue(this.props.value, this.props.options);
+
+          if (selected !== this.state.selected) {
+            this.setState({
+              selected: selected
+            });
+          }
+        } else {
+          this.setState({
+            selected: {
+              label: typeof this.props.placeholder === 'undefined' ? DEFAULT_PLACEHOLDER_STRING : this.props.placeholder,
+              value: ''
+            }
+          });
+        }
+      }
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      document.addEventListener('click', this.handleDocumentClick, false);
+      document.addEventListener('touchend', this.handleDocumentClick, false);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.mounted = false;
+      document.removeEventListener('click', this.handleDocumentClick, false);
+      document.removeEventListener('touchend', this.handleDocumentClick, false);
+    }
+  }, {
+    key: "handleMouseDown",
+    value: function handleMouseDown(event) {
+      if (this.props.onFocus && typeof this.props.onFocus === 'function') {
+        this.props.onFocus(this.state.isOpen);
+      }
+
+      if (event.type === 'mousedown' && event.button !== 0) return;
+      event.stopPropagation();
+      event.preventDefault();
+
+      if (!this.props.disabled) {
+        this.setState({
+          isOpen: !this.state.isOpen
+        });
+      }
+    }
+  }, {
+    key: "parseValue",
+    value: function parseValue(value, options) {
+      var option;
+
+      if (typeof value === 'string') {
+        for (var i = 0, num = options.length; i < num; i++) {
+          if (options[i].type === 'group') {
+            var match = options[i].items.filter(function (item) {
+              return item.value === value;
+            });
+
+            if (match.length) {
+              option = match[0];
+            }
+          } else if (typeof options[i].value !== 'undefined' && options[i].value === value) {
+            option = options[i];
+          }
+        }
+      }
+
+      return option || value;
+    }
+  }, {
+    key: "setValue",
+    value: function setValue(value, label) {
+      var newState = {
+        selected: {
+          value: value,
+          label: label
+        },
+        isOpen: false
+      };
+      this.fireChangeEvent(newState);
+      this.setState(newState);
+    }
+  }, {
+    key: "fireChangeEvent",
+    value: function fireChangeEvent(newState) {
+      if (newState.selected !== this.state.selected && this.props.onChange) {
+        this.props.onChange(newState.selected);
+      }
+    }
+  }, {
+    key: "renderOption",
+    value: function renderOption(option) {
+      var _classes;
+
+      var value = option.value;
+
+      if (typeof value === 'undefined') {
+        value = option.label || option;
+      }
+
+      var label = option.label || option.value || option;
+      var isSelected = value === this.state.selected.value || value === this.state.selected;
+      var classes = (_classes = {}, _defineProperty(_classes, "".concat(this.props.baseClassName, "-option"), true), _defineProperty(_classes, option.className, !!option.className), _defineProperty(_classes, 'is-selected', isSelected), _classes);
+      var optionClass = (0, _classnames["default"])(classes);
+      var dataAttributes = Object.keys(option.data || {}).reduce(function (acc, dataKey) {
+        return _objectSpread({}, acc, _defineProperty({}, "data-".concat(dataKey), option.data[dataKey]));
+      }, {});
+      return _react["default"].createElement("div", _extends({
+        key: value,
+        className: optionClass,
+        onMouseDown: this.setValue.bind(this, value, label),
+        onClick: this.setValue.bind(this, value, label),
+        role: "option",
+        "aria-selected": isSelected ? 'true' : 'false'
+      }, dataAttributes), label);
+    }
+  }, {
+    key: "buildMenu",
+    value: function buildMenu() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          options = _this$props.options,
+          baseClassName = _this$props.baseClassName;
+      var ops = options.map(function (option) {
+        if (option.type === 'group') {
+          var groupTitle = _react["default"].createElement("div", {
+            className: "".concat(baseClassName, "-title")
+          }, option.name);
+
+          var _options = option.items.map(function (item) {
+            return _this2.renderOption(item);
+          });
+
+          return _react["default"].createElement("div", {
+            className: "".concat(baseClassName, "-group"),
+            key: option.name,
+            role: "listbox",
+            tabIndex: "-1"
+          }, groupTitle, _options);
+        } else {
+          return _this2.renderOption(option);
+        }
+      });
+      return ops.length ? ops : _react["default"].createElement("div", {
+        className: "".concat(baseClassName, "-noresults")
+      }, "No options found");
+    }
+  }, {
+    key: "handleDocumentClick",
+    value: function handleDocumentClick(event) {
+      if (this.mounted) {
+        if (!this.dropdownRef.current.contains(event.target)) {
+          if (this.state.isOpen) {
+            this.setState({
+              isOpen: false
+            });
+          }
+        }
+      }
+    }
+  }, {
+    key: "isValueSelected",
+    value: function isValueSelected() {
+      return typeof this.state.selected === 'string' || this.state.selected.value !== '';
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _classNames, _classNames2, _classNames3, _classNames4, _classNames5;
+
+      var _this$props2 = this.props,
+          baseClassName = _this$props2.baseClassName,
+          controlClassName = _this$props2.controlClassName,
+          placeholderClassName = _this$props2.placeholderClassName,
+          menuClassName = _this$props2.menuClassName,
+          arrowClassName = _this$props2.arrowClassName,
+          arrowClosed = _this$props2.arrowClosed,
+          arrowOpen = _this$props2.arrowOpen,
+          className = _this$props2.className;
+      var disabledClass = this.props.disabled ? 'Dropdown-disabled' : '';
+      var placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.label;
+      var dropdownClass = (0, _classnames["default"])((_classNames = {}, _defineProperty(_classNames, "".concat(baseClassName, "-root"), true), _defineProperty(_classNames, className, !!className), _defineProperty(_classNames, 'is-open', this.state.isOpen), _classNames));
+      var controlClass = (0, _classnames["default"])((_classNames2 = {}, _defineProperty(_classNames2, "".concat(baseClassName, "-control"), true), _defineProperty(_classNames2, controlClassName, !!controlClassName), _defineProperty(_classNames2, disabledClass, !!disabledClass), _classNames2));
+      var placeholderClass = (0, _classnames["default"])((_classNames3 = {}, _defineProperty(_classNames3, "".concat(baseClassName, "-placeholder"), true), _defineProperty(_classNames3, placeholderClassName, !!placeholderClassName), _defineProperty(_classNames3, 'is-selected', this.isValueSelected()), _classNames3));
+      var menuClass = (0, _classnames["default"])((_classNames4 = {}, _defineProperty(_classNames4, "".concat(baseClassName, "-menu"), true), _defineProperty(_classNames4, menuClassName, !!menuClassName), _classNames4));
+      var arrowClass = (0, _classnames["default"])((_classNames5 = {}, _defineProperty(_classNames5, "".concat(baseClassName, "-arrow"), true), _defineProperty(_classNames5, arrowClassName, !!arrowClassName), _classNames5));
+
+      var value = _react["default"].createElement("div", {
+        className: placeholderClass
+      }, placeHolderValue);
+
+      var menu = this.state.isOpen ? _react["default"].createElement("div", {
+        className: menuClass,
+        "aria-expanded": "true"
+      }, this.buildMenu()) : null;
+      return _react["default"].createElement("div", {
+        ref: this.dropdownRef,
+        className: dropdownClass
+      }, _react["default"].createElement("div", {
+        className: controlClass,
+        onMouseDown: this.handleMouseDown.bind(this),
+        onTouchEnd: this.handleMouseDown.bind(this),
+        "aria-haspopup": "listbox"
+      }, value, _react["default"].createElement("div", {
+        className: "".concat(baseClassName, "-arrow-wrapper")
+      }, arrowOpen && arrowClosed ? this.state.isOpen ? arrowOpen : arrowClosed : _react["default"].createElement("span", {
+        className: arrowClass
+      }))), menu);
+    }
+  }]);
+
+  return Dropdown;
+}(_react.Component);
+
+Dropdown.defaultProps = {
+  baseClassName: 'Dropdown'
+};
+var _default = Dropdown;
+exports["default"] = _default;
+
+
+/***/ }),
+
 /***/ "./node_modules/react-poker/dist/react-poker.js":
 /*!******************************************************!*\
   !*** ./node_modules/react-poker/dist/react-poker.js ***!
@@ -56717,6 +57177,36 @@ if (false) {} else {
   module.exports = __webpack_require__(/*! ./cjs/scheduler.development.js */ "./node_modules/scheduler/cjs/scheduler.development.js");
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/react-dropdown/style.css":
+/*!***********************************************!*\
+  !*** ./node_modules/react-dropdown/style.css ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./style.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/react-dropdown/style.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_style_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
