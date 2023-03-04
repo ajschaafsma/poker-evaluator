@@ -13,7 +13,35 @@ class PokerController extends Controller
     public function evaluateHand(Request $request) {
         //Post hand in JSON array format. Example: [{"value":"1","suit":"C"},{"value":"5","suit":"C"},{"value":"5","suit":"H"},{"value":"J","suit":"D"},{"value":"K","suit":"S"}]
 
-        $handArray = request()->post();
+        $board = request()->post();
+
+        $handArray = [];
+
+        foreach($board['board'] as $card) {
+            $suit = substr($card, -1);
+            //Compensation for a 10
+            if(strlen($card) == 3) {
+                $value = substr($card, 0, 2);
+            } else {
+                $value = substr($card, 0, 1);
+            }
+            //Map to numbers to make it easier to calculate straights
+            if($value == 'A') {
+                $value = 1;
+            }
+            if($value == 'J') {
+                $value = 11;
+            }
+            if($value == 'Q') {
+                $value = 12;
+            }
+            if($value == 'K') {
+                $value = 13;
+            }
+            $newcard['value'] = $value;
+            $newcard['suit'] = $suit;
+            $handArray[] = $newcard;
+        }
 
         //Get an array of just the suits
         $suits = array_column($handArray, 'suit');
@@ -35,12 +63,11 @@ class PokerController extends Controller
         $countValues = array_count_values($values);
 
         //This evaluates if the values are consecutive
+        //See https://stackoverflow.com/a/71750631
         //Checks if we have a straight
-        if(($max - $min + 1) == count($values)) {
-            $isStraight = true;
-        } else {
-            $isStraight = false;
-        }
+        $range = range(min($values), max($values));
+        $diff = array_diff($range, $values);
+        $isStraight = empty($diff) && count($values) === count($range);
 
         //Check in order of hierarchy - omitting 5 of a kind
         if($isStraight && $isFlush) {
@@ -74,3 +101,4 @@ class PokerController extends Controller
 
     }
 }
+
