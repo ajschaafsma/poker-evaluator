@@ -10,9 +10,11 @@ class PokerController extends Controller
         try {
             $board = request()->post();
 
-            //In a larger application, I would move much of this logic into a seperate model
+            //In a larger application, I would move much of this logic into a separate model
             //The model would have methods for validating the hand size, duplicates etc
             //As well as the logic for evaluating the value
+            //For example $hand->checkValidity();
+            //and $hand->evaluateValue();
             $handArray = [];
 
             if(!is_null($board['board']) && !empty($board['board'])) {
@@ -72,6 +74,8 @@ class PokerController extends Controller
                 //Get array of values
                 $values = array_column($handArray, 'value');
 
+                //This counts how many of each value there are
+                //Used further down to calculate pairs, 3s, 4s, etc
                 $countValues = array_count_values($values);
 
                 //This evaluates if the values are consecutive
@@ -82,12 +86,13 @@ class PokerController extends Controller
                 $isStraight = empty($diff) && count($values) === count($range);
 
                 //TODO: Cater for royal flush
+                //TODO: Cater for 10-J-Q-K-A straight
 
                 //Check in order of hierarchy - omitting 5 of a kind
                 if ($isStraight && $isFlush) {
                     $handValue = 'Straight Flush';
                 } else if (array_search(4, $countValues)) {
-                    //If the value 4 is found when counting value occurences
+                    //If the value 4 is found when counting value occurrences
                     $handValue = 'Four of a Kind';
                 } else if (array_search(3, $countValues) && array_search(2, $countValues)) {
                     //If one value occurs 3 times while another occurs 2 times
@@ -97,13 +102,13 @@ class PokerController extends Controller
                 } else if ($isStraight) {
                     $handValue = 'Straight';
                 } else if (array_search(3, $countValues)) {
-                    //If the value 3 is found when counting value occurences
+                    //If the value 3 is found when counting value occurrences
                     $handValue = 'Three of a Kind';
                 } else if (array_search(2, array_count_values($countValues))) {
                     //If two different pairs of same values were found
                     $handValue = 'Two pair';
                 } else if (array_search(2, $countValues)) {
-                    //If the value 2 is found when counting value occurences
+                    //If the value 2 is found when counting value occurrences
                     $handValue = 'One pair';
                 } else {
                     $handValue = 'High Card';
