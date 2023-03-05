@@ -2322,14 +2322,13 @@ var HandManager = /*#__PURE__*/function (_React$Component) {
         }
       })["catch"](function (error) {
         if (error.response) {
-          console.log("ERROR CAUGHT WITH RESPONSE");
-          console.log(error);
+          if (error.response.data.message) {
+            (0,react_toastify__WEBPACK_IMPORTED_MODULE_7__.toast)("Error: " + error.response.data.message);
+          }
         } else if (error.request) {
-          console.log("ERROR CAUGHT WITH REQUEST");
-          console.log(error);
+          (0,react_toastify__WEBPACK_IMPORTED_MODULE_7__.toast)("An unknown error occurred");
         } else {
-          console.log("ERROR CAUGHT WITH FALLBACK");
-          console.log(error);
+          (0,react_toastify__WEBPACK_IMPORTED_MODULE_7__.toast)("An unknown error occurred");
         }
       });
     }

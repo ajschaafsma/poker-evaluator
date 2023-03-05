@@ -116,8 +116,9 @@ class PokerController extends Controller
         } catch (\Exception $e) {
             //TODO: Use Laravel's built in exception handlers
             return response()->json([
-                "error" => $e->getMessage()
-            ], 200);
+                "message" => $e->getMessage(),
+                "code" => 400
+            ], 400);
         }
 
     }
