@@ -5,6 +5,8 @@ import "react-poker/dist/styles.css"
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 /*See https://www.npmjs.com/package/react-poker for base of this component */
 
@@ -34,6 +36,12 @@ function shuffle(array) {
 }
 
 const suits = ["d", "c", "h", "s"];
+const displaysuits = [
+    {value: "d", label: "Diamonds"},
+    {value: "c", label: "Clubs"},
+    {value: "h", label: "Hearts"},
+    {value: "s", label: "Spades"}
+]
 const ranks = [
     "A",
     "2",
@@ -98,9 +106,6 @@ class HandManager extends React.Component {
         this.setState(Object.assign({}, { board: [], deck: newDeck }));
 
         const flop = range(0, 5).map(e => deck.pop());
-        //this.setState(Object.assign({}, { board: flop }));
-        //this.newRound();
-        //this.dealFlop();
     }
 
     chooseCard() {
@@ -131,12 +136,25 @@ class HandManager extends React.Component {
         axios.post('/api/poker/evaluate-hand', {
             board
         }).then((response) => {
-            this.setState({
-                evaluation: response.data.hand_value
-            })
-        }), (error) => {
-            console.log(error);
-        }
+            if(response.data.error) {
+                toast("Error: "+response.data.error);
+            } else if(response.data.hand_value) {
+                this.setState({
+                    evaluation: response.data.hand_value
+                })
+            }
+        }).catch(function (error) {
+            if (error.response) {
+                console.log("ERROR CAUGHT WITH RESPONSE");
+                console.log(error);
+            } else if (error.request) {
+                console.log("ERROR CAUGHT WITH REQUEST");
+                console.log(error);
+            } else {
+                console.log("ERROR CAUGHT WITH FALLBACK");
+                console.log(error);
+            }
+        })
     }
 
     render() {
@@ -145,36 +163,37 @@ class HandManager extends React.Component {
         return (
             <div style={{ left: "10vw", top: "10vh", position: "absolute" }}>
                 <div>
-                <Dropdown options={suits} onChange={this.handleSuitChange} placeholder="Select a suit" />
-                <Dropdown options={ranks} onChange={this.handleValueChange} placeholder="Select a value" />
-                <button
-                    style={{ padding: "1.5em", margin: "2em" }}
-                    onClick={() => this.chooseCard()}
-                >
-                    Add card
-                </button>
+                    <ToastContainer />
+                    <Dropdown options={displaysuits} onChange={this.handleSuitChange} placeholder="Select a suit" />
+                    <Dropdown options={ranks} onChange={this.handleValueChange} placeholder="Select a value" />
                     <button
                         style={{ padding: "1.5em", margin: "2em" }}
-                        onClick={() => this.newRound()}
+                        onClick={() => this.chooseCard()}
                     >
-                        Clear Hand
+                        Add card
                     </button>
+                        <button
+                            style={{ padding: "1.5em", margin: "2em" }}
+                            onClick={() => this.newRound()}
+                        >
+                            Clear Hand
+                        </button>
+                        </div>
+                    <div>
+                        <button
+                            style={{ padding: "1.5em", margin: "2em" }}
+                            onClick={this.evaluateHand}
+                        >
+                            Evaluate
+                        </button>
+                        Hand evaluation: {evaluation}
                     </div>
-                <div>
-                    <button
-                        style={{ padding: "1.5em", margin: "2em" }}
-                        onClick={this.evaluateHand}
-                    >
-                        Evaluate
-                    </button>
-                    Hand evaluation: {evaluation}
-                </div>
-                <Deck
-                    board={board}
-                    boardXoffset={375} // X axis pixel offset for dealing board
-                    boardYoffset={200} // Y axis pixel offset for dealing board
-                    size={200} // card height in pixels
-                />
+                    <Deck
+                        board={board}
+                        boardXoffset={375} // X axis pixel offset for dealing board
+                        boardYoffset={200} // Y axis pixel offset for dealing board
+                        size={200} // card height in pixels
+                    />
             </div>
         );
     }
