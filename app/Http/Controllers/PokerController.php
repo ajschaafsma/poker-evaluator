@@ -10,6 +10,9 @@ class PokerController extends Controller
         try {
             $board = request()->post();
 
+            //In a larger application, I would move much of this logic into a seperate model
+            //The model would have methods for validating the hand size, duplicates etc
+            //As well as the logic for evaluating the value
             $handArray = [];
 
             if(!is_null($board['board']) && !empty($board['board'])) {
@@ -27,6 +30,8 @@ class PokerController extends Controller
                     //Hacky way of dealing with 10 being the only value with two digits
                     //Should rather extend the regex to handle this case as well
                     $card = str_replace("10", "T", $card);
+                    //Regex to check card format validity
+                    //Matches a two character string where the first character has to be the value and the second the suit
                     if (preg_match('/^[2-9TAJQK]{1}[cshd]{1}$/', $card)) {
                         $suit = substr($card, -1);
                         $value = substr($card, 0, 1);
@@ -58,7 +63,6 @@ class PokerController extends Controller
                 $suits = array_column($handArray, 'suit');
 
                 //If all elements in the suit array are the same, then we have a flush
-                //If not, we do not have a flush
                 if (count(array_unique($suits)) == 1) {
                     $isFlush = true;
                 } else {
@@ -114,7 +118,7 @@ class PokerController extends Controller
             }
 
         } catch (\Exception $e) {
-            //TODO: Use Laravel's built in exception handlers
+            //In a more robust application, I would use Laravel's built in exception handlers
             return response()->json([
                 "message" => $e->getMessage(),
                 "code" => 400
