@@ -10,8 +10,10 @@ class PokerController extends Controller
         try {
             $board = request()->post();
 
-            //In a larger application, I would move much of this logic into a separate model
-            //The model would have methods for validating the hand size, duplicates etc
+            //In a larger application, I would move much of this logic into a separate library
+            //Since Laravel's models would link up to a database and there isn't one required for this task, I didn't take that approach
+            //The library would have methods for validating the hand size, duplicates etc
+            //This would be to ensure it's useable in different parts of the application
             //As well as the logic for evaluating the value
             //For example $hand->checkValidity();
             //and $hand->evaluateValue();
